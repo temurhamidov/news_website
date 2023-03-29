@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ news.title }} {% endblock %}
+
+{% block content %}
+<hr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2">
+            <h5>So'ngi yangiliklar</h5>
+            {% for ln in last_news %}
+
+            <span>Sana: {{ ln.created|time:'h:i' }} | {{ ln.created|date:'d.m.Y' }}</span>
+            <p style="font-size: large"><a href="{% url 'news_detail' ln.pk %}">{{ ln.title }}</a></p>
+            <img style="width: 120px" src="{{ ln.image.url }}">
+            <hr>
+            {% endfor %}
+
+        </div>
+            {% for new in news %}
+        <div class="col-lg-8">
+            <span>Sana: {{ new.created|time:'h:i' }} / {{ new.created|date:'d.m.Y' }}</span>
+            <span> Ko'rish: {{ new.views }}</span>
+            <h2>{{ new.title }}</h2>
+            <div><img style="width: 80%;" src="{{ new.image.url }}"></div>
+
+            <p>{{ new.description }}</p>
+            {% for tag in new.tags.all %}
+            <a href="{% url 'news_tag' tag.slug %}"> #{{ tag.name }} | </a>
+            {% endfor %}
+
+        </div>
+                {% endfor %}
+
+    </div>
+</div>
+
+
+{% endblock %}
